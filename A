@@ -1,0 +1,66 @@
+package com.kretek.erab.managementwarung;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+/**
+ * Created by Bare on 16/10/17.
+ */
+
+public class DataHelper extends SQLiteOpenHelper {
+
+    //DATABASE NAME AND DATABASE VERSION
+    private static final String DB_NAME = "WarungQ.db";
+    private static final int DB_VER = 1;
+
+    //TABLE AND COLLUMS DATA
+    private static final String DT_TABLE_DATA = "data";
+    private static final String DATA_COL_ID = "no";
+    private static final String DATA_COL_NAME = "nb";
+    private static final String DATA_COL_PRICE = "hb";
+    private static final String DATA_COL_TOT = "tb";
+
+    //TABLE AND COLLUMS LOGIN
+    private static final String DT_TABLE_USER = "user";
+    private static final String USER_TABLE_NO = "no";
+    private static final String USER_TABLE_MAIL = "Email";
+    private static final String USER_TABLE_PASSWORD = "Password";
+
+    //SQL STRING TO MAKE TABLE DATA
+    private static final String MAKETABLEDATA =  DT_TABLE_DATA + "(" + DATA_COL_ID + " INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL, " + DATA_COL_NAME + " TEXT NOT NULL, " + DATA_COL_PRICE + " TEXT NOT NULL, " + DATA_COL_TOT + " TEXT NOT NULL);";
+
+    //SQL STRING TO MAKE TABLE USER
+    private static final String MAKETABLEUSER = DT_TABLE_USER + "(" + USER_TABLE_NO + " INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL, " + USER_TABLE_MAIL +" TEXT NOT NULL, " + USER_TABLE_PASSWORD +" TEXT NOT NULL);";
+
+    //STRING ADMIN AND PASSWORD
+    private static final String ADMINUSER = "admin";
+    private static final String ADMINPASS = "admon";
+    //DataHelper
+    public DataHelper(Context context) {
+        super(context, DB_NAME, null, DB_VER);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        //execSQL to make table
+        Log.d("Data" , "onCreate : " + MAKETABLEDATA);
+        db.execSQL("CREATE TABLE " + MAKETABLEDATA);
+        Log.d("User","onCreate : " + MAKETABLEUSER);
+        db.execSQL("CREATE TABLE " + MAKETABLEUSER);
+        //execSQL to make admin
+        Log.d("User" , "onCreate: ADMIN" );
+        db.execSQL("INSERT INTO " + DT_TABLE_USER +"("+ USER_TABLE_MAIL + "," + USER_TABLE_PASSWORD +") VALUES('"+ ADMINUSER + "'," + ADMINPASS + "');");
+
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int usang, int lawas) {
+        db.execSQL("CREATE TABLE DROP IF EXISTS " + MAKETABLEDATA);
+
+        onCreate(db);
+    }
+}
+
